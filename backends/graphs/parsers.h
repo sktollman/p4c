@@ -31,6 +31,7 @@ class ParserGraphs : public Inspector {
     const P4::TypeMap* typeMap;
     const cstring graphsDir;
 
+ protected:
     struct TransitionEdge {
         cstring sourceState;
         cstring destState;

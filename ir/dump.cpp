@@ -95,3 +95,10 @@ void dump(const Visitor::Context *ctxt) { dump(std::cout, ctxt); }
 std::string dumpToString(const IR::Node* n) {
     std::stringstream str;
     dump(str, n); return str.str(); }
+
+void mydump(const char* filename, const IR::Node *n) {
+    std::ofstream fs;
+    fs.open(filename);
+    dump(fs, n);
+}
+

@@ -19,6 +19,8 @@ limitations under the License.
 
 #include <string>
 #include <iostream>
+#include <fstream>
+
 
 /* overloads rather than optional arguments to make it easier to call from the debugger */
 void dump(std::ostream &out, const IR::Node *n);
@@ -37,6 +39,12 @@ void dump_notype(uintptr_t p);
 void dump_notype(uintptr_t p, unsigned maxdepth);
 void dump(std::ostream &, const Visitor::Context *);
 void dump(const Visitor::Context *);
+
+void mydump(const char* filename, const IR::Node *n); // {
+//    std::ofstream fs;
+//    fs.open(filename);
+//    dump(fs, n);
+//}
 
 std::string dumpToString(const IR::Node* n);
 
