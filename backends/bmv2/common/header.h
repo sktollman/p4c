@@ -33,6 +33,7 @@ class Backend;
 class HeaderConverter : public Inspector {
     ConversionContext*   ctxt;
     cstring              scalarsName;
+    cstring              metadataName;
     cstring              scalarsTypeName;
     std::set<cstring>    visitedHeaders;
 
@@ -55,7 +56,7 @@ class HeaderConverter : public Inspector {
 
     bool preorder(const IR::Parameter* param) override;
 
-    HeaderConverter(ConversionContext* ctxt, cstring scalarsName);
+    HeaderConverter(ConversionContext* ctxt, cstring scalarsName, cstring metadataName);
 };
 
 }  // namespace BMV2
