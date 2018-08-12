@@ -48,6 +48,7 @@ class ParserConverter : public Inspector {
     bool preorder(const IR::P4Parser* p) override;
     explicit ParserConverter(ConversionContext* ctxt) :
         ctxt(ctxt), corelib(P4::P4CoreLibrary::instance) {
+        std::cout << "initializing parser converter" << std::endl;
         setName("ParserConverter");
     }
 };
