@@ -220,9 +220,17 @@ const IR::CompileTimeValue* InstantiatedBlock::getParameterValue(cstring paramNa
 
 const IR::CompileTimeValue*
 InstantiatedBlock::findParameterValue(cstring paramName) const {
+    std::cout << "constructorParams: " << getConstructorParameters() << std::endl;
+    for (auto elem : *getConstructorParameters()->getDeclarations()) {
+        std::cout << "elem: "<< elem << std::endl;
+        std::cout << "elem name: "<< elem->getName() << std::endl;
+        std::cout << "elem name 2: "<< elem->externalName() << std::endl;
+    }
     auto* param = getConstructorParameters()->getDeclByName(paramName);
     if (!param) return nullptr;
+    std::cout << "param exists" << std::endl;
     if (!param->is<IR::Parameter>()) return nullptr;
+    std::cout << "is ir::param" << std::endl;
     return getValue(param->getNode());
 }
 
