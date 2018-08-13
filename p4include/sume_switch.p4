@@ -37,6 +37,7 @@
 typedef bit<8> port_t;
 
 /* standard sume switch metadata */
+@metadata @name("sume_metadata")
 struct sume_metadata_t {
     bit<16> dma_q_size; // measured in 32-byte words
     bit<16> nf3_q_size; // measured in 32-byte words
