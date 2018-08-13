@@ -81,7 +81,6 @@ class SimpleSumeSwitchExpressionConverter : public ExpressionConverter {
     bool isSumeMetadataParameter(const IR::Parameter* param) {
         auto st = dynamic_cast<SumeProgramStructure*>(structure);
         auto params = st->parser->getApplyParameters();
-        // param->dbprint(std::cout);
         if (params->size() != 5) {
             modelError("%1%: Expected 5 parameter for parser", st->parser);
             return false;
@@ -110,7 +109,6 @@ class SimpleSumeSwitchExpressionConverter : public ExpressionConverter {
 
     Util::IJson* convertParam(const IR::Parameter* param, cstring fieldName) override {
         if (isSumeMetadataParameter(param)) {
-            std::cout << "is sume metadata field: " << fieldName << std::endl;
             auto result = new Util::JsonObject();
             result->emplace("type", "field");
             auto e = BMV2::mkArrayField(result, "value");
