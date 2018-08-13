@@ -21,7 +21,6 @@ limitations under the License.
 namespace BMV2 {
 
 cstring ParserConverter::jsonAssignment(const IR::Type* type, bool inParser) {
-    std::cout << "jsonAssignment" << std::endl;
     if (!inParser && type->is<IR::Type_Varbits>())
         return "assign_VL";
     if (type->is<IR::Type_HeaderUnion>())
@@ -44,7 +43,6 @@ cstring ParserConverter::jsonAssignment(const IR::Type* type, bool inParser) {
 }
 
 Util::IJson* ParserConverter::convertParserStatement(const IR::StatOrDecl* stat) {
-    std::cout << "convertParserStatement" << std::endl;
     auto result = new Util::JsonObject();
     auto params = mkArrayField(result, "parameters");
     if (stat->is<IR::AssignmentStatement>()) {
@@ -194,7 +192,6 @@ Util::IJson* ParserConverter::convertParserStatement(const IR::StatOrDecl* stat)
 // Operates on a select keyset
 void ParserConverter::convertSimpleKey(const IR::Expression* keySet,
                                        mpz_class& value, mpz_class& mask) const {
-    std::cout << "convertSimpleKey" << std::endl;
     if (keySet->is<IR::Mask>()) {
         auto mk = keySet->to<IR::Mask>();
         if (!mk->left->is<IR::Constant>()) {
@@ -227,7 +224,6 @@ unsigned ParserConverter::combine(const IR::Expression* keySet,
                                 const IR::ListExpression* select,
                                 mpz_class& value, mpz_class& mask,
                                 bool& is_vset, cstring& vset_name) const {
-    std::cout << "combine" << std::endl;
     // From the BMv2 spec: For values and masks, make sure that you
     // use the correct format. They need to be the concatenation (in
     // the right order) of all byte padded fields (padded with 0
@@ -299,7 +295,6 @@ unsigned ParserConverter::combine(const IR::Expression* keySet,
 }
 
 Util::IJson* ParserConverter::stateName(IR::ID state) {
-    std::cout << "stateName" << std::endl;
     if (state.name == IR::ParserState::accept) {
         return Util::JsonValue::null;
     } else if (state.name == IR::ParserState::reject) {
@@ -312,7 +307,6 @@ Util::IJson* ParserConverter::stateName(IR::ID state) {
 
 std::vector<Util::IJson*>
 ParserConverter::convertSelectExpression(const IR::SelectExpression* expr) {
-    std::cout << "convertSelectExpression" << std::endl;
     std::vector<Util::IJson*> result;
     auto se = expr->to<IR::SelectExpression>();
     for (auto sc : se->selectCases) {
@@ -348,7 +342,6 @@ ParserConverter::convertSelectExpression(const IR::SelectExpression* expr) {
 
 Util::IJson*
 ParserConverter::convertSelectKey(const IR::SelectExpression* expr) {
-    std::cout << "convertSelectKey" << std::endl;
     auto se = expr->to<IR::SelectExpression>();
     CHECK_NULL(se);
     auto key = ctxt->conv->convert(se->select, false);
@@ -357,7 +350,6 @@ ParserConverter::convertSelectKey(const IR::SelectExpression* expr) {
 
 Util::IJson*
 ParserConverter::convertPathExpression(const IR::PathExpression* pe) {
-    std::cout << "convertPathExpression" << std::endl;
     auto trans = new Util::JsonObject();
     trans->emplace("value", "default");
     trans->emplace("mask", Util::JsonValue::null);
@@ -367,7 +359,6 @@ ParserConverter::convertPathExpression(const IR::PathExpression* pe) {
 
 Util::IJson*
 ParserConverter::createDefaultTransition() {
-    std::cout << "transition" << std::endl;
     auto trans = new Util::JsonObject();
     trans->emplace("value", "default");
     trans->emplace("mask", Util::JsonValue::null);
@@ -376,7 +367,6 @@ ParserConverter::createDefaultTransition() {
 }
 
 bool ParserConverter::preorder(const IR::P4Parser* parser) {
-    std::cout << "preorder" << std::endl;
     // hanw hard-coded parser name assumed by BMv2
     auto parser_id = ctxt->json->add_parser("parser");
 
