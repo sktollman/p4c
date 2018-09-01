@@ -27,8 +27,8 @@ Util::JsonArray* HeaderConverter::pushNewArray(Util::JsonArray* parent) {
     return result;
 }
 
-HeaderConverter::HeaderConverter(ConversionContext* ctxt, cstring scalarsName)
-        : ctxt(ctxt), scalarsName(scalarsName) {
+HeaderConverter::HeaderConverter(ConversionContext* ctxt, cstring scalarsName, cstring metadataName)
+        : ctxt(ctxt), scalarsName(scalarsName), metadataName(metadataName) {
     setName("HeaderConverter");
     CHECK_NULL(ctxt);
 }
@@ -330,7 +330,7 @@ Visitor::profile_t HeaderConverter::init_apply(const IR::Node* node) {
 
     // always-have metadata instance
     ctxt->json->add_metadata(scalarsTypeName, scalarsName);
-    // ctxt->json->add_metadata("standard_metadata", "standard_metadata");
+    ctxt->json->add_metadata(metadataName, metadataName);
     return Inspector::init_apply(node);
 }
 

@@ -919,8 +919,7 @@ SimpleSwitchBackend::convert(const IR::ToplevelBlock* tlb) {
 
     auto ctxt = new ConversionContext(refMap, typeMap, toplevel, structure, conv, json);
 
-    auto hconv = new HeaderConverter(ctxt, scalarsName);
-    ctxt->json->add_metadata("standard_metadata", "standard_metadata");
+    auto hconv = new HeaderConverter(ctxt, scalarsName, "standard_metadata");
     program->apply(*hconv);
 
     auto pconv = new ParserConverter(ctxt);
