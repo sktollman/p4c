@@ -37,7 +37,7 @@
 typedef bit<8> port_t;
 
 /* standard sume switch metadata */
-// @metadata @name("sume_metadata") TODO: should I have this?
+@metadata
 struct sume_metadata_t {
     bit<16> dma_q_size; // measured in 32-byte words
     bit<16> nf3_q_size; // measured in 32-byte words
@@ -105,4 +105,3 @@ package SimpleSumeSwitch<H, M, D>(Parser<H, M, D> p,
                                   Deparser<H, M, D> d);
 
 #endif  /* _SUME_SWITCH_P4_ */
-

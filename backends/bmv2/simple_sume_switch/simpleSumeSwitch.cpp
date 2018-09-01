@@ -178,8 +178,7 @@ SimpleSumeSwitchBackend::convert(const IR::ToplevelBlock* tlb) {
 
     auto ctxt = new ConversionContext(refMap, typeMap, toplevel, structure, conv, json);
 
-    auto hconv = new HeaderConverter(ctxt, scalarsName);
-    ctxt->json->add_metadata("sume_metadata_t", "sume_metadata_t");
+    auto hconv = new HeaderConverter(ctxt, scalarsName, "sume_metadata_t");
     program->apply(*hconv);
 
     auto pconv = new ParserConverter(ctxt);
