@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include "backends/bmv2/frontend.h"
+#include "backends/bmv2/common/frontend.h"
 #include "backends/bmv2/simple_switch/simpleSwitch.h"
 
 int main(int argc, char *const argv[]) {

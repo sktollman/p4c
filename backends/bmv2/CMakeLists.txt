@@ -47,11 +47,13 @@ set (BMV2_BACKEND_COMMON_SRCS
   common/deparser.cpp
   common/expression.cpp
   common/extern.cpp
+  common/frontend.cpp
   common/globals.cpp
   common/header.cpp
   common/helpers.cpp
   common/lower.cpp
   common/metermap.cpp
+  common/midend.cpp
   common/parser.cpp
   common/programStructure.cpp
   common/sharedActionSelectorCheck.cpp
@@ -66,6 +68,7 @@ set (BMV2_BACKEND_COMMON_HDRS
   common/deparser.h
   common/expression.h
   common/extern.h
+  common/frontend.h
   common/globals.h
   common/header.h
   common/helpers.h

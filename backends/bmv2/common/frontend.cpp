@@ -29,7 +29,7 @@ limitations under the License.
 #include "lib/log.h"
 #include "lib/nullstream.h"
 #include "backends/bmv2/common/JsonObjects.h"
-#include "backends/bmv2/midend.h"
+#include "backends/bmv2/common/midend.h"
 
 namespace BMV2 {
 

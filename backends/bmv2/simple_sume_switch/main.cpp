@@ -27,7 +27,7 @@
 // @NETFPGA_LICENSE_HEADER_END@
 //
 
-#include "backends/bmv2/frontend.h"
+#include "backends/bmv2/common/frontend.h"
 #include "backends/bmv2/simple_sume_switch/simpleSumeSwitch.h"
 
 int main(int argc, char *const argv[]) {
