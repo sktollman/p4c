@@ -17,7 +17,9 @@ limitations under the License.
 #include "backends/bmv2/common/frontend.h"
 #include "backends/bmv2/simple_switch/simpleSwitch.h"
 
+// TODO: instead of the template class, have the backend take in an architecture object!!
+
 int main(int argc, char *const argv[]) {
-    auto frontend = BMV2::FrontEnd<BMV2::SimpleSwitchBackend>();
-    return frontend.run(argc, argv);
+    auto frontend = new BMV2::FrontEnd<BMV2::SimpleSwitchBackend>();
+    return frontend->run(argc, argv);
 }

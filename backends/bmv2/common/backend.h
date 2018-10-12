@@ -45,9 +45,9 @@ enum block_t { PARSER, PIPELINE, DEPARSER, V1_PARSER, V1_DEPARSER,
 
 class ExpressionConverter;
 
-// Backend is a the base class for SimpleSwitchBackend and PortableSwitchBackend.
 class Backend {
  public:
+    // Architecture                     architecture;
     BMV2Options&                     options;
     P4::ReferenceMap*                refMap;
     P4::TypeMap*                     typeMap;
@@ -59,14 +59,15 @@ class Backend {
 
  public:
     Backend(BMV2Options& options, P4::ReferenceMap* refMap, P4::TypeMap* typeMap,
-            P4::ConvertEnums::EnumMapping* enumMap) :
+            P4::ConvertEnums::EnumMapping* enumMap/*,Architecture architecture*/) :
+        // architecture(architecture),
         options(options),
         refMap(refMap), typeMap(typeMap), enumMap(enumMap),
         corelib(P4::P4CoreLibrary::instance), json(new BMV2::JsonObjects()) {
         refMap->setIsV1(options.isv1());
         }
     void serialize(std::ostream& out) const { json->toplevel->serialize(out); }
-    virtual void convert(const IR::ToplevelBlock* block) = 0;
+    void convert(const IR::ToplevelBlock* block);
 };
 
 /**

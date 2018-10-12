@@ -18,6 +18,10 @@ limitations under the License.
 #include <string>
 #include <iostream>
 
+#include "frontend.h"
+#include "backend.h"
+#include "JsonObjects.h"
+#include "midend.h"
 #include "ir/ir.h"
 #include "control-plane/p4RuntimeSerializer.h"
 #include "frontends/common/applyOptionsPragmas.h"
@@ -28,12 +32,90 @@ limitations under the License.
 #include "lib/gc.h"
 #include "lib/log.h"
 #include "lib/nullstream.h"
-#include "backends/bmv2/common/JsonObjects.h"
-#include "backends/bmv2/common/midend.h"
 
 namespace BMV2 {
 
-FrontEnd::run(int argc, char *const argv[]) {
+// template<class BackendImpl>
+// int FrontEnd<BackendImpl>::run(int argc, char *const argv[]) {
+//     setup_gc_logging();
+//
+//     AutoCompileContext autoBMV2Context(new BMV2::BMV2Context);
+//     auto& options = BMV2::BMV2Context::get().options();
+//     options.langVersion = CompilerOptions::FrontendVersion::P4_16;
+//     options.compilerVersion = "0.0.5";
+//
+//     if (options.process(argc, argv) != nullptr)
+//         options.setInputFile();
+//     if (::errorCount() > 0)
+//         return 1;
+//
+//     auto hook = options.getDebugHook();
+//
+//     // BMV2 is required for compatibility with the previous compiler.
+//     options.preprocessor_options += " -D__TARGET_BMV2__";
+//     auto program = P4::parseP4File(options);
+//     if (program == nullptr || ::errorCount() > 0)
+//         return 1;
+//     try {
+//         P4::P4COptionPragmaParser optionsPragmaParser;
+//         program->apply(P4::ApplyOptionsPragmas(optionsPragmaParser));
+//
+//         P4::FrontEnd frontend;
+//         frontend.addDebugHook(hook);
+//         program = frontend.run(options, program);
+//     } catch (const Util::P4CExceptionBase &bug) {
+//         std::cerr << bug.what() << std::endl;
+//         return 1;
+//     }
+//     if (program == nullptr || ::errorCount() > 0)
+//         return 1;
+//
+//     P4::serializeP4RuntimeIfRequired(program, options);
+//     if (::errorCount() > 0)
+//         return 1;
+//
+//     const IR::ToplevelBlock* toplevel = nullptr;
+//     BMV2::MidEnd midEnd(options);
+//     midEnd.addDebugHook(hook);
+//     try {
+//         toplevel = midEnd.process(program);
+//         if (::errorCount() > 1 || toplevel == nullptr ||
+//             toplevel->getMain() == nullptr)
+//             return 1;
+//         if (options.dumpJsonFile)
+//             JSONGenerator(*openFile(options.dumpJsonFile, true)) << program << std::endl;
+//     } catch (const Util::P4CExceptionBase &bug) {
+//         std::cerr << bug.what() << std::endl;
+//         return 1;
+//     }
+//     if (::errorCount() > 0)
+//         return 1;
+//
+//     BMV2::Backend *backend = new BackendImpl(options, &midEnd.refMap,
+//                                    &midEnd.typeMap, &midEnd.enumMap);
+//
+//     try {
+//         backend->convert(toplevel);
+//     } catch (const Util::P4CExceptionBase &bug) {
+//         std::cerr << bug.what() << std::endl;
+//         return 1;
+//     }
+//     if (::errorCount() > 0)
+//         return 1;
+//
+//     if (!options.outputFile.isNullOrEmpty()) {
+//         std::ostream* out = openFile(options.outputFile, false);
+//         if (out != nullptr) {
+//             backend->serialize(*out);
+//             out->flush();
+//         }
+//     }
+//
+//     return ::errorCount() > 0;
+// }
+
+template<class BackendImpl>
+int FrontEnd<BackendImpl>::run(int argc, char *const argv[]) {
     setup_gc_logging();
 
     AutoCompileContext autoBMV2Context(new BMV2::BMV2Context);
@@ -88,7 +170,7 @@ FrontEnd::run(int argc, char *const argv[]) {
     if (::errorCount() > 0)
         return 1;
 
-    auto backend = new BackendImpl(options, &midEnd.refMap,
+    BMV2::Backend *backend = new BackendImpl(options, &midEnd.refMap,
                                    &midEnd.typeMap, &midEnd.enumMap);
 
     try {

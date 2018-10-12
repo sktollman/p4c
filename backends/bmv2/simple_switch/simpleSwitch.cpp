@@ -806,47 +806,48 @@ void SimpleSwitchBackend::createActions(ConversionContext* ctxt, V1ProgramStruct
 
 void
 SimpleSwitchBackend::convert(const IR::ToplevelBlock* tlb) {
+    CHECK_NULL(tlb);
     structure = new V1ProgramStructure();
 
     auto parseV1Arch = new ParseV1Architecture(structure);
     auto main = tlb->getMain();
-    if (!main) return;  // no main
+    if (!main) return;
 
     if (main->type->name != "V1Switch")
         ::warning("%1%: the main package should be called V1Switch"
                   "; are you using the wrong architecture?", main->type->name);
 
     main->apply(*parseV1Arch);
-    if (::errorCount() > 0)
-        return;
+    if (::errorCount() > 0) return;
 
-    /// Declaration which introduces the user metadata.
-    /// We expect this to be a struct type.
-    const IR::Type_Struct* userMetaType = nullptr;
-    cstring userMetaName = refMap->newName("userMetadata");
-
-    // Find the user metadata declaration
-    auto parser = main->findParameterValue(v1model.sw.parser.name);
-    if (parser == nullptr) return;
-    if (!parser->is<IR::ParserBlock>()) {
-        modelError("%1%: main package  match the expected model", main);
-        return;
-    }
-    auto params = parser->to<IR::ParserBlock>()->container->getApplyParameters();
-    BUG_CHECK(params->size() == 4, "%1%: expected 4 parameters", parser);
-    auto metaParam = params->parameters.at(2);
-    auto paramType = metaParam->type;
-    if (!paramType->is<IR::Type_Name>()) {
-        ::error("%1%: expected the user metadata type to be a struct", paramType);
-        return;
-    }
-    auto decl = refMap->getDeclaration(paramType->to<IR::Type_Name>()->path);
-    if (!decl->is<IR::Type_Struct>()) {
-        ::error("%1%: expected the user metadata type to be a struct", paramType);
-        return;
-    }
-    userMetaType = decl->to<IR::Type_Struct>();
-    LOG2("User metadata type is " << userMetaType);
+    // TODO: figure out how to generalize this part!
+    // /// Declaration which introduces the user metadata.
+    // /// We expect this to be a struct type.
+    // const IR::Type_Struct* userMetaType = nullptr;
+    // cstring userMetaName = refMap->newName("userMetadata");
+    //
+    // // Find the user metadata declaration
+    // auto parser = main->findParameterValue(v1model.sw.parser.name);
+    // if (parser == nullptr) return;
+    // if (!parser->is<IR::ParserBlock>()) {
+    //     modelError("%1%: main package  match the expected model", main);
+    //     return;
+    // }
+    // auto params = parser->to<IR::ParserBlock>()->container->getApplyParameters();
+    // BUG_CHECK(params->size() == 4, "%1%: expected 4 parameters", parser);
+    // auto metaParam = params->parameters.at(2);
+    // auto paramType = metaParam->type;
+    // if (!paramType->is<IR::Type_Name>()) {
+    //     ::error("%1%: expected the user metadata type to be a struct", paramType);
+    //     return;
+    // }
+    // auto decl = refMap->getDeclaration(paramType->to<IR::Type_Name>()->path);
+    // if (!decl->is<IR::Type_Struct>()) {
+    //     ::error("%1%: expected the user metadata type to be a struct", paramType);
+    //     return;
+    // }
+    // userMetaType = decl->to<IR::Type_Struct>();
+    // LOG2("User metadata type is " << userMetaType);
 
     auto evaluator = new P4::EvaluatorPass(refMap, typeMap);
     auto program = tlb->getProgram();
@@ -877,6 +878,8 @@ SimpleSwitchBackend::convert(const IR::ToplevelBlock* tlb) {
 
     // map IR node to compile-time allocated resource blocks.
     toplevel->apply(*new BMV2::BuildResourceMap(&structure->resourceMap));
+
+    // TODO: this is where the pass manager comes in in the PSA switch
 
     // field list and learn list ids in bmv2 are not consistent with ids for
     // other objects: they need to start at 1 (not 0) since the id is also used

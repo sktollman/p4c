@@ -40,6 +40,7 @@ set (BMV2_SIMPLE_SUME_SWITCH_SRCS
 add_cpplint_files (${CMAKE_CURRENT_SOURCE_DIR} "${BMV2_SIMPLE_SUME_SWITCH_SRCS}")
 
 set (BMV2_BACKEND_COMMON_SRCS
+  simple_switch/simpleSwitch.cpp
   common/JsonObjects.cpp
   common/action.cpp
   common/control.cpp
@@ -60,6 +61,7 @@ set (BMV2_BACKEND_COMMON_SRCS
   )
 
 set (BMV2_BACKEND_COMMON_HDRS
+  simple_switch/simpleSwitch.h
   common/JsonObjects.h
   common/action.h
   common/backend.h
@@ -99,10 +101,10 @@ add_executable(p4c-bm2-psa ${BMV2_PSA_SWITCH_SRCS})
 target_link_libraries (p4c-bm2-psa bmv2backend ${P4C_LIBRARIES} ${P4C_LIB_DEPS})
 install(TARGETS p4c-bm2-psa RUNTIME DESTINATION ${P4C_RUNTIME_OUTPUT_DIRECTORY})
 
-build_unified(BMV2_SIMPLE_SUME_SWITCH_SRCS)
-add_executable(p4c-bm2-sume ${BMV2_SIMPLE_SUME_SWITCH_SRCS})
-target_link_libraries (p4c-bm2-sume bmv2backend ${P4C_LIBRARIES} ${P4C_LIB_DEPS})
-install(TARGETS p4c-bm2-sume RUNTIME DESTINATION ${P4C_RUNTIME_OUTPUT_DIRECTORY})
+#build_unified(BMV2_SIMPLE_SUME_SWITCH_SRCS)
+#add_executable(p4c-bm2-sume ${BMV2_SIMPLE_SUME_SWITCH_SRCS})
+#target_link_libraries (p4c-bm2-sume bmv2backend ${P4C_LIBRARIES} ${P4C_LIB_DEPS})
+#install(TARGETS p4c-bm2-sume RUNTIME DESTINATION ${P4C_RUNTIME_OUTPUT_DIRECTORY})
 
 # hack to get around the fact that the test scripts expect the backend
 # binary to be in the top level directory. This should go away when we
@@ -110,7 +112,7 @@ install(TARGETS p4c-bm2-sume RUNTIME DESTINATION ${P4C_RUNTIME_OUTPUT_DIRECTORY}
 add_custom_target(linkbmv2
   COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_BINARY_DIR}/p4c-bm2-ss ${P4C_BINARY_DIR}/p4c-bm2-ss
   COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_BINARY_DIR}/p4c-bm2-psa ${P4C_BINARY_DIR}/p4c-bm2-psa
-  COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_BINARY_DIR}/p4c-bm2-sume ${P4C_BINARY_DIR}/p4c-bm2-sume
+  #COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_BINARY_DIR}/p4c-bm2-sume ${P4C_BINARY_DIR}/p4c-bm2-sume
   COMMAND ${CMAKE_COMMAND} -E create_symlink ${P4C_BINARY_DIR}/p4include ${CMAKE_CURRENT_BINARY_DIR}/p4include
   COMMAND ${CMAKE_COMMAND} -E create_symlink ${P4C_BINARY_DIR}/p4_14include ${CMAKE_CURRENT_BINARY_DIR}/p4_14include
   )
