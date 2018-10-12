@@ -18,8 +18,6 @@
 # sources for backend executable
 set (BMV2_SIMPLE_SWITCH_SRCS
     simple_switch/main.cpp
-    simple_switch/midend.cpp
-    simple_switch/midend.h
     simple_switch/simpleSwitch.cpp
     simple_switch/simpleSwitch.h
     )
@@ -36,8 +34,6 @@ add_cpplint_files (${CMAKE_CURRENT_SOURCE_DIR} "${BMV2_PSA_SWITCH_SRCS}")
 
 set (BMV2_SIMPLE_SUME_SWITCH_SRCS
     simple_sume_switch/main.cpp
-    simple_sume_switch/midend.cpp
-    simple_sume_switch/midend.h
     simple_sume_switch/simpleSumeSwitch.cpp
     simple_sume_switch/simpleSumeSwitch.h
     )

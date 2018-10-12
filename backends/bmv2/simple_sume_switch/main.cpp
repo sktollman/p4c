@@ -42,7 +42,7 @@
 #include "lib/log.h"
 #include "lib/nullstream.h"
 #include "backends/bmv2/common/JsonObjects.h"
-#include "backends/bmv2/simple_sume_switch/midend.h"
+#include "backends/bmv2/midend.h"
 #include "backends/bmv2/simple_sume_switch/simpleSumeSwitch.h"
 
 int main(int argc, char *const argv[]) {
@@ -84,7 +84,7 @@ int main(int argc, char *const argv[]) {
         return 1;
 
     const IR::ToplevelBlock* toplevel = nullptr;
-    BMV2::SimpleSumeSwitchMidEnd midEnd(options); // todo, this whole file can be generalized
+    BMV2::MidEnd midEnd(options); // todo, this whole file can be generalized
     midEnd.addDebugHook(hook);
     try {
         toplevel = midEnd.process(program);
